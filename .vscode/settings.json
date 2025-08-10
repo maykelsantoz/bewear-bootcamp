@@ -14,5 +14,7 @@
     "source.fixAll.eslint": "always"
   },
   "files.autoSave": "onFocusChange",
-  "editor.formatOnSaveMode": "modifications"
+  // "editor.formatOnSaveMode": "modifications"
+  "editor.formatOnSaveMode": "file",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
