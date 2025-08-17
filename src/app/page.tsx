@@ -1,15 +1,17 @@
+import { desc } from "drizzle-orm";
 import Image from "next/image";
 
 import CategorySelector from "@/components/common/category-selector";
-// import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
-import ProductList from "@/components/common/product-list";
-import { db } from "@/db";
 // import { getCategories } from "@/data/categories/get";
 // import {
 //   getNewlyCreatedProducts,
 //   getProductsWithVariants,
 // } from "@/data/products/get";
+import Footer from "@/components/common/footer";
+import { Header } from "@/components/common/header";
+import ProductList from "@/components/common/product-list";
+import { db } from "@/db";
+import { productTable } from "@/db/schema";
 
 const Home = async () => {
   // const [products, newlyCreatedProducts, categories] = await Promise.all([
@@ -18,6 +20,13 @@ const Home = async () => {
   //   // getCategories(),
   // ]);
   const products = await db.query.productTable.findMany({
+    with: {
+      variants: true,
+    },
+  });
+
+  const newlyCreatedProducts = await db.query.productTable.findMany({
+    orderBy: [desc(productTable.createdAt)],
     with: {
       variants: true,
     },
@@ -57,8 +66,8 @@ const Home = async () => {
           />
         </div>
 
-        {/* <ProductList products={newlyCreatedProducts} title="Novos produtos" /> */}
-        {/* <Footer /> */}
+        <ProductList products={newlyCreatedProducts} title="Novos produtos" />
+        <Footer />
       </div>
     </>
   );
